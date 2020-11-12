@@ -160,17 +160,14 @@ for(var pos = 0; pos<flameGroup.length; pos = pos+1)
 	}
 }*/
 
-if(dragonz.isTouching(birdGroup))
-{
-	birdGroup.destroyEach();
-	
-}
+
 
  drawSprites();
 fill(0)
  textSize(49);
  text(score, displayWidth-100, 100)
  textFont("Harrington")
+}
 }
 
 
@@ -261,3 +258,4 @@ function spawnLegend()
 		legendGroup.add(lg)
 	}	
 }
+
