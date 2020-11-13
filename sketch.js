@@ -5,7 +5,7 @@ const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
 var PLAY = 1;
-var END = 0;
+var END ;
 var gameState = PLAY;
 var bg, Bg, Bird, bird, Dragon, dragonz, Jet, jet, Boss, bs, Legend, lg, Flame;
 var count = 0;
@@ -40,6 +40,7 @@ function setup()
 	dragonz.scale = 1.2;
 	dragonz.addAnimation("dg", Dragon)
 	dragonz.rotation = 90
+	dragonz.setCollider("circle", 0, 0, -70)
 
 	
 
@@ -77,11 +78,6 @@ if(gameState == PLAY)
  	spawnFlame();
   } 
 
-  if(jetsGroup.x <0)
-  {
-	  //gameState = END
-  }
-
   if(frameCount <= 20000)
 {
  spawnJet();
@@ -89,6 +85,29 @@ if(gameState == PLAY)
  spawnBoss();
 }
 
+for(var pos = 0, post = 0, poi = 0; pos < jetsGroup.length || post < bossGroup.length || poi < legendGroup.length; pos++, post++, poi++)
+{
+if(jetsGroup.get(pos).x <0)
+  {
+	  gameState = END
+  }
+if(bossGroup.get(post) != undefined)
+{
+
+  if(bossGroup.get(post).x<0 )
+  {
+	gameState = END
+  }
+}
+if(legendGroup.get(poi) != undefined)
+{
+  if(legendGroup.get(poi).x < 0)
+  {
+	gameState = END
+  }
+  console.log(bossGroup.get(pos))
+}
+}
 
   for(var pos = 0; pos<flameGroup.length; pos = pos + 1)
   {
@@ -148,25 +167,44 @@ for(var pos = 0; pos<flameGroup.length; pos = pos+1)
 }
 }
 
-/*for(var pos = 0; pos<birdGroup.length; pos = pos + 1)
+
+for(var pos = 0; pos<birdGroup.length; pos = pos + 1)
 {
-	for(var position = 0; position<dragonz.length; position = position + 1)
+	if(dragonz.isTouching(birdGroup.get(pos)))
 	{
-		if(dragonz.get(position).isTouching(birdGroup.get(pos)))
-		{
-			birdGroup.get(pos).destroy();
-			score = score + 1
-		}
+		birdGroup.get(pos).destroy();
+		score = score + 1
 	}
-}*/
-
-
+}
 
  drawSprites();
 fill(0)
  textSize(49);
  text(score, displayWidth-100, 100)
  textFont("Harrington")
+}
+
+else if(gameState == END)
+{
+	for(var pos = 0; pos < jetsGroup; pos = pos + 1)
+	{
+		jetsGroup.get(pos).destroy();
+	}
+
+	for(var pos = 0; pos < bossGroup; pos = pos + 1)
+	{
+		bossGroup.get(pos).destroy();
+	}
+
+	for(var pos = 0; pos < legendGroup; pos = pos + 1)
+	{
+		legendGroup.get(pos).destroy();
+	}
+	fill("red")
+	textSize(109)
+	text("GAME OVER", displayWidth/2-350, displayHeight/2 - 108.6)
+	console.log("GAME OVER")
+
 }
 }
 
